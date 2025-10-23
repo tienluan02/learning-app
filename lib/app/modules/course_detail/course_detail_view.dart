@@ -1,10 +1,10 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/course.dart';
-import 'package:eden_learning_app/app/modules/course_detail/components/course_body_info.dart';
-import 'package:eden_learning_app/app/modules/course_detail/course_lessons_view.dart';
-import 'package:eden_learning_app/app/modules/course_detail/project_view.dart';
-import 'package:eden_learning_app/app/modules/course_detail/reviews_view.dart';
-import 'package:eden_learning_app/app/modules/home/components/flexible_header.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/modules/course_detail/components/course_body_info.dart';
+import 'package:mentor_mesh_hub/app/modules/course_detail/course_lessons_view.dart';
+import 'package:mentor_mesh_hub/app/modules/course_detail/project_view.dart';
+import 'package:mentor_mesh_hub/app/modules/course_detail/reviews_view.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/flexible_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

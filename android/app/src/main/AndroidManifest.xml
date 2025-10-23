@@ -1,7 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.eden_learning_app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <application
-        android:label="eden_learning_app"
+        android:label="MentorMesh Hub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

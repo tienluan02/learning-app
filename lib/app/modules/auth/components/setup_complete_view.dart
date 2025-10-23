@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:eden_learning_app/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +17,7 @@ class SetupCompleteView extends StatelessWidget {
           FadeInRight(
             duration: const Duration(milliseconds: 1000),
             child: Text(
-              'You’re all set, Emmy!',
+              'You’re all set, Luan!',
               style: AppTypography.kBold32,
             ),
           ),
@@ -25,7 +25,7 @@ class SetupCompleteView extends StatelessWidget {
           FadeInRight(
             duration: const Duration(milliseconds: 1000),
             child: Text(
-              'Thank you for taking the time to\nget started on Learn Eden.',
+              'Thank you for taking the time to\nget started on MentorMesh Hub.',
               textAlign: TextAlign.center,
               style: AppTypography.kLight16,
             ),

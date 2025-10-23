@@ -1,11 +1,12 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/course.dart';
-import 'package:eden_learning_app/app/modules/home/components/course_card.dart';
-import 'package:eden_learning_app/app/modules/home/components/custom_menu_card.dart';
-import 'package:eden_learning_app/app/modules/message/message_view.dart';
-import 'package:eden_learning_app/app/modules/profile/components/profile_image_card.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
-import 'package:eden_learning_app/app/routes/app_routes.dart';
+import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/course_card.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/custom_menu_card.dart';
+import 'package:mentor_mesh_hub/app/modules/message/message_view.dart';
+import 'package:mentor_mesh_hub/app/modules/profile/components/profile_image_card.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -55,11 +56,11 @@ class ProfileView extends StatelessWidget {
                   children: [
                     SizedBox(height: 65.h),
                     Text(
-                      'Emmy Elsner',
+                      'Tien Luan Nguyen',
                       style: AppTypography.kBold32,
                     ),
                     Text(
-                      'Design Expert',
+                      'Mobile Developer',
                       style: AppTypography.kLight14,
                     ),
                     SizedBox(height: 30.h),
@@ -108,7 +109,7 @@ class ProfileView extends StatelessWidget {
                             style: AppTypography.kBold18,
                           ),
                           Text(
-                            'I’m a web design enthusiast. I love\nteaching and creating experiences that\nadd value to people’s lives. ',
+                            'I’m a mobile developer. I love teaching and creating experiences that add value to people’s lives. I created this app and teaching on this platform so that I can learn more about mobile development.',
                             style: AppTypography.kLight14,
                           ),
                           SizedBox(height: AppSpacing.fortyVertical),

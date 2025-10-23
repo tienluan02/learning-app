@@ -1,4 +1,4 @@
-import 'package:eden_learning_app/app/data/constants/app_colors.dart';
+import 'package:mentor_mesh_hub/app/data/constants/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -31,7 +31,7 @@ class _ActiveUserChartState extends State<ActiveUserChart> {
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(),
       legend: Legend(isVisible: true),
-      series: <ChartSeries<_ChartData, String>>[
+      series: <CartesianSeries<_ChartData, String>>[
         ColumnSeries<_ChartData, String>(
           name: 'Sales',
           dataSource: chartData,

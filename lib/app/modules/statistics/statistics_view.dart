@@ -1,12 +1,12 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/category.dart';
-import 'package:eden_learning_app/app/modules/statistics/components/active_user_chart.dart';
-import 'package:eden_learning_app/app/modules/statistics/components/filter_date_card.dart';
-import 'package:eden_learning_app/app/modules/statistics/components/sale_category_card.dart';
-import 'package:eden_learning_app/app/modules/statistics/components/weekly_earning_chart.dart';
-import 'package:eden_learning_app/app/modules/widgets/containers/primary_container.dart';
-import 'package:eden_learning_app/app/modules/widgets/custom_painter/dotted_divider.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/category.dart';
+import 'package:mentor_mesh_hub/app/modules/statistics/components/active_user_chart.dart';
+import 'package:mentor_mesh_hub/app/modules/statistics/components/filter_date_card.dart';
+import 'package:mentor_mesh_hub/app/modules/statistics/components/sale_category_card.dart';
+import 'package:mentor_mesh_hub/app/modules/statistics/components/weekly_earning_chart.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/custom_painter/dotted_divider.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

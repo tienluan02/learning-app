@@ -1,7 +1,7 @@
-name: eden_learning_app
+name: mentor_mesh_hub
 version: 1.0.0+1
 publish_to: none
-description: A new Flutter project.
+description: MentorMesh Hub - A mentoring and learning platform.
 environment: 
   sdk: '>=2.19.0 <3.0.0'
 
@@ -20,10 +20,12 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   animate_do: ^3.0.2
   flutter_swipe_button: ^2.1.1+1
-  syncfusion_flutter_charts: ^20.4.38
+  syncfusion_flutter_charts: ^26.2.14
   confetti: ^0.7.0
   flutter_staggered_animations: ^1.1.1
   device_preview: ^1.1.0
+  http: ^0.13.6
+  shared_preferences: ^2.2.2
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

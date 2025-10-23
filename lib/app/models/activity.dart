@@ -1,5 +1,5 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/data/helpers/enums/activity_type.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/data/helpers/enums/activity_type.dart';
 
 class Activity {
   String id;

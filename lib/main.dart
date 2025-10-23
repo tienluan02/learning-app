@@ -1,12 +1,14 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:eden_learning_app/app/controllers/theme_controller.dart';
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/data/helpers/theme_helper.dart';
-import 'package:eden_learning_app/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
+import 'package:mentor_mesh_hub/app/controllers/theme_controller.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/data/helpers/theme_helper.dart';
+import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +16,12 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
+  
+  // Initialize Controllers globally
+  Get.put(AuthController());
+  
   runApp(
-     Main(),
+    const Main(),
   );
 }
 
@@ -37,7 +43,7 @@ class Main extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: GetMaterialApp(
-            title: 'Eden',
+            title: 'MentorMesh Hub',
             debugShowCheckedModeBanner: false,
             useInheritedMediaQuery: true,
             locale: DevicePreview.locale(context),
@@ -48,7 +54,7 @@ class Main extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: getThemeMode(themeController.theme),
-            initialRoute: AppRoutes.getOnboardingRoute(),
+            initialRoute: '/landing-page',
             getPages: AppRoutes.routes,
           ),
         );

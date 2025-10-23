@@ -1,6 +1,6 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/modules/profile/components/profile_image_card.dart';
-import 'package:eden_learning_app/app/modules/widgets/containers/primary_container.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/profile/components/profile_image_card.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

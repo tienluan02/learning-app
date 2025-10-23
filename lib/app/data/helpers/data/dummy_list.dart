@@ -1,5 +1,5 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/activity.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/activity.dart';
 
 List<String> reviews = [
   AppAssets.kAngry,

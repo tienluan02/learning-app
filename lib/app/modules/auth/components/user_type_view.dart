@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/data/helpers/enums/user_type.dart';
-import 'package:eden_learning_app/app/modules/auth/components/user_type_card.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/data/helpers/enums/user_type.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/components/user_type_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -28,7 +28,7 @@ class _UserTypeViewState extends State<UserTypeView> {
           FadeInLeft(
             duration: const Duration(milliseconds: 1000),
             child: Text(
-              'Join Learn Eden as a…',
+              'Join MentorMesh Hub as a…',
               style: AppTypography.kBold32,
             ),
           ),

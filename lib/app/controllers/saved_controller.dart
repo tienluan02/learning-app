@@ -1,4 +1,4 @@
-import 'package:eden_learning_app/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
 import 'package:get/get.dart';
 
 class SavedController extends GetxController {

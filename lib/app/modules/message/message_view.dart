@@ -1,9 +1,9 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/chat_model.dart';
-import 'package:eden_learning_app/app/modules/home/components/search_field.dart';
-import 'package:eden_learning_app/app/modules/message/components/chat_card.dart';
-import 'package:eden_learning_app/app/modules/message/components/message_appbar.dart';
-import 'package:eden_learning_app/app/modules/message/components/online_card.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/chat_model.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/search_field.dart';
+import 'package:mentor_mesh_hub/app/modules/message/components/chat_card.dart';
+import 'package:mentor_mesh_hub/app/modules/message/components/message_appbar.dart';
+import 'package:mentor_mesh_hub/app/modules/message/components/online_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

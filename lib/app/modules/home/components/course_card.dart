@@ -1,8 +1,8 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/course.dart';
-import 'package:eden_learning_app/app/modules/course_detail/course_detail_view.dart';
-import 'package:eden_learning_app/app/modules/home/components/saved_icon.dart';
-import 'package:eden_learning_app/app/modules/widgets/containers/primary_container.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/modules/course_detail/course_detail_view.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/saved_icon.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,7 +37,9 @@ class CourseCard extends StatelessWidget {
                       top: Radius.circular(AppSpacing.radiusFifteen),
                     ),
                     image: DecorationImage(
-                      image: AssetImage(course.image),
+                    image: course.image.startsWith('http') 
+                      ? NetworkImage(course.image) as ImageProvider
+                      : AssetImage(course.image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -49,37 +51,37 @@ class CourseCard extends StatelessWidget {
               flex: 6,
               child: Container(
                 padding: EdgeInsets.all(AppSpacing.tenVertical),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      course.category.name,
-                      style: AppTypography.kBold14
-                          .copyWith(color: AppColors.kPrimary),
-                    ),
-                    SizedBox(height: AppSpacing.tenVertical),
-                    Text(
-                      course.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTypography.kBold20,
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Text(
-                          '\$ ${course.price}',
-                          style: AppTypography.kBold14,
-                        ),
-                        const Spacer(),
-                        Text(
-                          'By ${course.owner.name}',
-                          style: AppTypography.kLight16,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        course.category?.name ?? 'Course',
+                        style: AppTypography.kBold14
+                            .copyWith(color: AppColors.kPrimary),
+                      ),
+                      SizedBox(height: AppSpacing.tenVertical),
+                      Text(
+                        course.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.kBold20,
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Text(
+                            '\$ ${course.price}',
+                            style: AppTypography.kBold14,
+                          ),
+                          const Spacer(),
+                          Text(
+                            'By ${course.owner?.name ?? 'Instructor'}',
+                            style: AppTypography.kLight16,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
               ),
             ),
           ],

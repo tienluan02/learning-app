@@ -1,10 +1,13 @@
-import 'package:eden_learning_app/app/controllers/theme_controller.dart';
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/modules/profile/components/setting_tile.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
+import 'package:mentor_mesh_hub/app/controllers/theme_controller.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/profile/components/setting_tile.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -28,7 +31,7 @@ class _SettingsViewState extends State<SettingsView> {
           child: CustomIconButton(
             color: isDarkMode(context)
                 ? Colors.black
-                : AppColors.kPrimary.withOpacity(0.14),
+                : AppColors.kPrimary.withValues(alpha: 0.14),
             icon: AppAssets.kArrowBackIos,
             onTap: () {
               Get.back<void>();
@@ -120,7 +123,14 @@ class _SettingsViewState extends State<SettingsView> {
               onTap: () {},
             ),
             const Spacer(),
-            PrimaryButton(onTap: () {}, text: 'Sign Out'),
+            PrimaryButton(
+              onTap: () async {
+                final authController = Get.find<AuthController>();
+                await authController.logout();
+                Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
+              },
+              text: 'Sign Out',
+            ),
             SizedBox(height: 30.h),
           ],
         ),

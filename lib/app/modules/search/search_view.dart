@@ -1,11 +1,12 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/category.dart';
-import 'package:eden_learning_app/app/models/course.dart';
-import 'package:eden_learning_app/app/modules/auth/components/custom_chips.dart';
-import 'package:eden_learning_app/app/modules/home/components/course_card.dart';
-import 'package:eden_learning_app/app/modules/home/components/search_field.dart';
-import 'package:eden_learning_app/app/modules/search/components/filter_sheet.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/category.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/components/custom_chips.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/course_card.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/search_field.dart';
+import 'package:mentor_mesh_hub/app/modules/search/components/filter_sheet.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/controllers/api_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ApiController apiController = Get.find<ApiController>();
     bool isDarkMode(BuildContext context) =>
         Theme.of(context).brightness == Brightness.dark;
 
@@ -81,20 +83,19 @@ class SearchView extends StatelessWidget {
                 ],
               ),
               SizedBox(height: AppSpacing.tenVertical),
-              Wrap(
+              Obx(() => Wrap(
                 spacing: 15.w,
                 runSpacing: 20.h,
                 alignment: WrapAlignment.spaceBetween,
-                children: List.generate(
-                  4,
-                  (index) => CustomChips(
+                children: apiController.categories.take(4).map(
+                  (category) => CustomChips(
                     onTap: () {},
-                    index: index,
-                    category: categoriesList[index],
+                    index: apiController.categories.indexOf(category),
+                    category: category,
                     isSelected: false,
                   ),
-                ),
-              ),
+                ).toList(),
+              )),
               SizedBox(height: 47.h),
               Row(
                 children: [
@@ -108,20 +109,20 @@ class SearchView extends StatelessWidget {
                 ],
               ),
               SizedBox(height: AppSpacing.tenVertical),
-              SizedBox(
+              Obx(() => SizedBox(
                 height: 280.h,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   clipBehavior: Clip.none,
                   itemBuilder: (context, index) {
                     return CourseCard(
-                      course: coursesList[index],
+                      course: apiController.courses[index],
                     );
                   },
                   separatorBuilder: (context, index) => SizedBox(width: 30.w),
-                  itemCount: coursesList.length,
+                  itemCount: apiController.courses.length,
                 ),
-              ),
+              )),
             ],
           ),
         ),

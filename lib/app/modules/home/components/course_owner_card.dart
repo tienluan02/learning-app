@@ -1,14 +1,18 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/user_model.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CourseOwnerCard extends StatelessWidget {
-  final UserModel user;
-  const CourseOwnerCard({required this.user,super.key});
+  final UserModel? user;
+  const CourseOwnerCard({required this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+    
     return Row(
       children: [
         Container(
@@ -26,11 +30,11 @@ class CourseOwnerCard extends StatelessWidget {
         Column(
           children: [
             Text(
-              user.name,
+              user!.name,
               style: AppTypography.kBold16,
             ),
             Text(
-              user.bio,
+              user!.bio,
               style: AppTypography.kLight14,
             ),
           ],

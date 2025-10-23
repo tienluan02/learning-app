@@ -56,7 +56,7 @@ class AppAssets {
   static String kTriangleUp = 'assets/icons/triangle-up.svg';
 
   // Images.
-  static String kTeacher1 = 'assets/images/teacher1.jpg';
+  static String kTeacher1 = 'assets/images/teacherLuan.jpg';
   static String kFlutterCourse1 = 'assets/images/flutter-course-1.png';
   static String kWebsiteCourse1 = 'assets/images/website-course-1.jpg';
   static String kContrast = 'assets/images/contrast.png';

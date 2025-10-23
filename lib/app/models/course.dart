@@ -1,28 +1,131 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/category.dart';
-import 'package:eden_learning_app/app/models/lessons.dart';
-import 'package:eden_learning_app/app/models/user_model.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/category.dart';
+import 'package:mentor_mesh_hub/app/models/lessons.dart';
+import 'package:mentor_mesh_hub/app/models/user_model.dart';
 
 class Course {
   String id;
   String image;
   String name;
   double price;
-  Category category;
+  Category? category;
   List<Lessons> lessons;
   String description;
-  UserModel owner;
+  UserModel? owner;
+  String? shortDescription;
+  double? originalPrice;
+  String? categoryId;
+  String? instructorId;
+  String? level;
+  String? language;
+  int? duration;
+  bool? isPublished;
+  bool? isFeatured;
+  List<String>? tags;
+  List<String>? requirements;
+  List<String>? whatYouWillLearn;
+  double? averageRating;
+  int? ratingCount;
+  int? totalEnrollments;
+  int? totalLessons;
+  int? totalDuration;
+  String? startDate;
+  String? endDate;
+  bool? isSelfPaced;
 
   Course({
     required this.id,
     required this.image,
     required this.name,
     required this.price,
-    required this.category,
+    this.category,
     required this.lessons,
     required this.description,
-    required this.owner,
+    this.owner,
+    this.shortDescription,
+    this.originalPrice,
+    this.categoryId,
+    this.instructorId,
+    this.level,
+    this.language,
+    this.duration,
+    this.isPublished,
+    this.isFeatured,
+    this.tags,
+    this.requirements,
+    this.whatYouWillLearn,
+    this.averageRating,
+    this.ratingCount,
+    this.totalEnrollments,
+    this.totalLessons,
+    this.totalDuration,
+    this.startDate,
+    this.endDate,
+    this.isSelfPaced,
   });
+
+  // Factory constructor from JSON
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      id: json['id'].toString(),
+      image: json['image'] ?? '',
+      name: json['title'] ?? '',
+      price: (json['price'] as num? ?? 0).toDouble(),
+      description: json['description'] ?? '',
+      lessons: [], // Will be populated separately
+      shortDescription: json['shortDescription'],
+      originalPrice: (json['originalPrice'] as num?)?.toDouble(),
+      categoryId: json['categoryId']?.toString(),
+      instructorId: json['instructorId']?.toString(),
+      level: json['level'],
+      language: json['language'],
+      duration: json['duration'],
+      isPublished: json['isPublished'],
+      isFeatured: json['isFeatured'],
+      tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
+      requirements: json['requirements'] != null ? List<String>.from(json['requirements']) : null,
+      whatYouWillLearn: json['whatYouWillLearn'] != null ? List<String>.from(json['whatYouWillLearn']) : null,
+      averageRating: (json['averageRating'] as num?)?.toDouble(),
+      ratingCount: json['ratingCount'],
+      totalEnrollments: json['totalEnrollments'],
+      totalLessons: json['totalLessons'],
+      totalDuration: json['totalDuration'],
+      startDate: json['startDate'],
+      endDate: json['endDate'],
+      isSelfPaced: json['isSelfPaced'],
+    );
+  }
+
+  // Convert to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': name,
+      'image': image,
+      'price': price,
+      'description': description,
+      'shortDescription': shortDescription,
+      'originalPrice': originalPrice,
+      'categoryId': categoryId,
+      'instructorId': instructorId,
+      'level': level,
+      'language': language,
+      'duration': duration,
+      'isPublished': isPublished,
+      'isFeatured': isFeatured,
+      'tags': tags,
+      'requirements': requirements,
+      'whatYouWillLearn': whatYouWillLearn,
+      'averageRating': averageRating,
+      'ratingCount': ratingCount,
+      'totalEnrollments': totalEnrollments,
+      'totalLessons': totalLessons,
+      'totalDuration': totalDuration,
+      'startDate': startDate,
+      'endDate': endDate,
+      'isSelfPaced': isSelfPaced,
+    };
+  }
 }
 
 List<Course> coursesList = [

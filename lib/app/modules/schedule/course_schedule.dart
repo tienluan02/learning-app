@@ -1,8 +1,8 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/course.dart';
-import 'package:eden_learning_app/app/modules/home/components/course_card.dart';
-import 'package:eden_learning_app/app/modules/schedule/components/date_card.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/course.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/course_card.dart';
+import 'package:mentor_mesh_hub/app/modules/schedule/components/date_card.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

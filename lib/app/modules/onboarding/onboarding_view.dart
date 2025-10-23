@@ -1,9 +1,9 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/models/onboarding.dart';
-import 'package:eden_learning_app/app/modules/onboarding/components/custom_indicator.dart';
-import 'package:eden_learning_app/app/modules/onboarding/components/onboarding_card.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
-import 'package:eden_learning_app/app/routes/app_routes.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/models/onboarding.dart';
+import 'package:mentor_mesh_hub/app/modules/onboarding/components/custom_indicator.dart';
+import 'package:mentor_mesh_hub/app/modules/onboarding/components/onboarding_card.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

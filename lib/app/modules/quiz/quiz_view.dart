@@ -1,8 +1,8 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/modules/onboarding/components/custom_indicator.dart';
-import 'package:eden_learning_app/app/modules/quiz/components/quiz_one.dart';
-import 'package:eden_learning_app/app/modules/quiz/components/quiz_two.dart';
-import 'package:eden_learning_app/app/modules/widgets/buttons/buttons.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/onboarding/components/custom_indicator.dart';
+import 'package:mentor_mesh_hub/app/modules/quiz/components/quiz_one.dart';
+import 'package:mentor_mesh_hub/app/modules/quiz/components/quiz_two.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/buttons/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

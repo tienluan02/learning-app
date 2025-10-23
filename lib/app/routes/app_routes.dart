@@ -1,14 +1,15 @@
-import 'package:eden_learning_app/app/modules/auth/sign_in_view.dart';
-import 'package:eden_learning_app/app/modules/auth/sign_up_view.dart';
-import 'package:eden_learning_app/app/modules/auth/welcome_view.dart';
-import 'package:eden_learning_app/app/modules/landing_page/landing_page.dart';
-import 'package:eden_learning_app/app/modules/onboarding/onboarding_view.dart';
-import 'package:eden_learning_app/app/modules/profile/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:mentor_mesh_hub/app/modules/auth/sign_in_view.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/sign_up_view.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/welcome_view.dart';
+import 'package:mentor_mesh_hub/app/modules/landing_page/role_based_landing.dart';
+import 'package:mentor_mesh_hub/app/modules/onboarding/onboarding_view.dart';
+import 'package:mentor_mesh_hub/app/modules/profile/settings_view.dart';
+
 class AppRoutes {
-  static String onboarding = '/';
+  static String onboarding = '/onboarding';
   static String welcome = '/welcome';
   static String signIn = '/sign-in';
   static String signUp = '/sign-up';
@@ -16,6 +17,10 @@ class AppRoutes {
   static String settings = '/settings';
 
   static List<GetPage> routes = [
+    GetPage<Route<dynamic>>(
+      name: landing,
+      page: () => const RoleBasedLandingPage(),
+    ),
     GetPage<Route<dynamic>>(
       name: onboarding,
       page: () => const OnboardingView(),
@@ -31,10 +36,6 @@ class AppRoutes {
     GetPage<Route<dynamic>>(
       name: signUp,
       page: () => const SignUpView(),
-    ),
-    GetPage<Route<dynamic>>(
-      name: landing,
-      page: () => const LandingPage(),
     ),
     GetPage<Route<dynamic>>(
       name: settings,

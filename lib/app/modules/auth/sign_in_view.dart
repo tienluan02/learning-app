@@ -1,13 +1,15 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/modules/auth/components/auth_field.dart';
-import 'package:eden_learning_app/app/modules/auth/components/custom_social_button.dart';
-import 'package:eden_learning_app/app/modules/auth/components/divider_with_text.dart';
-import 'package:eden_learning_app/app/modules/widgets/animations/shake_animation.dart';
-import 'package:eden_learning_app/app/modules/widgets/widgets.dart';
-import 'package:eden_learning_app/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/components/auth_field.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/components/custom_social_button.dart';
+import 'package:mentor_mesh_hub/app/modules/auth/components/divider_with_text.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/animations/shake_animation.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
+import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -21,6 +23,8 @@ class _SignInViewState extends State<SignInView> {
   final _shakeKey = GlobalKey<ShakeWidgetState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,17 +71,33 @@ class _SignInViewState extends State<SignInView> {
                 key: _shakeKey,
                 shakeOffset: 10.0,
                 shakeDuration: const Duration(milliseconds: 500),
-                child: PrimaryButton(
-                  onTap: () {
+                child: Obx(() => PrimaryButton(
+                  onTap: () async {
                     if (_emailController.text.isNotEmpty &&
                         _passwordController.text.isNotEmpty) {
-                      Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
+                      final success = await authController.login(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text,
+                      );
+                      
+                      if (success) {
+                        Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
+                      } else {
+                        _shakeKey.currentState?.shake();
+                        Get.snackbar(
+                          'Login Failed',
+                          authController.errorMessage.value,
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
                     } else {
                       _shakeKey.currentState?.shake();
                     }
                   },
-                  text: 'Login',
-                ),
+                  text: authController.isLoading.value ? 'Logging in...' : 'Login',
+                )),
               ),
               SizedBox(height: AppSpacing.twentyVertical),
               const DividerWithText(),

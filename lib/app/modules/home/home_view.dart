@@ -1,16 +1,18 @@
-import 'package:eden_learning_app/app/data/constants/constants.dart';
-import 'package:eden_learning_app/app/modules/home/components/best_teachers.dart';
-import 'package:eden_learning_app/app/modules/home/components/course_list.dart';
-import 'package:eden_learning_app/app/modules/home/components/custom_menu_card.dart';
-import 'package:eden_learning_app/app/modules/home/components/earning_card.dart';
-import 'package:eden_learning_app/app/modules/home/components/refer_friend_sheet.dart';
-import 'package:eden_learning_app/app/modules/home/components/search_field.dart';
-import 'package:eden_learning_app/app/modules/schedule/course_schedule.dart';
-import 'package:eden_learning_app/app/modules/search/search_view.dart';
-import 'package:eden_learning_app/app/modules/statistics/statistics_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'package:mentor_mesh_hub/app/controllers/api_controller.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/best_teachers.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/course_list.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/custom_menu_card.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/earning_card.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/refer_friend_sheet.dart';
+import 'package:mentor_mesh_hub/app/modules/home/components/search_field.dart';
+import 'package:mentor_mesh_hub/app/modules/schedule/course_schedule.dart';
+import 'package:mentor_mesh_hub/app/modules/search/search_view.dart';
+import 'package:mentor_mesh_hub/app/modules/statistics/statistics_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -20,6 +22,15 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final ApiController apiController = Get.put(ApiController());
+
+  @override
+  void initState() {
+    super.initState();
+    // Load data when the page initializes
+    apiController.loadCourses();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +41,49 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              Text('Hi Emmy', style: AppTypography.kBold32),
+              Text('Hi Luan', style: AppTypography.kBold32),
               Text(
                 'What do you want to do today? ☀️',
                 style: AppTypography.kLight16,
               ),
+              // API Connection Status
+              Obx(() => Container(
+                margin: EdgeInsets.only(top: 10.h),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: apiController.isConnected.value 
+                    ? Colors.green.withValues(alpha: 0.1)
+                    : Colors.red.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      apiController.isConnected.value 
+                        ? Icons.cloud_done 
+                        : Icons.cloud_off,
+                      size: 16.sp,
+                      color: apiController.isConnected.value 
+                        ? Colors.green 
+                        : Colors.red,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      apiController.isConnected.value 
+                        ? 'Connected to API' 
+                        : 'API Disconnected',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: apiController.isConnected.value 
+                          ? Colors.green 
+                          : Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
               SizedBox(height: AppSpacing.thirtyVertical),
               GestureDetector(
                 onTap: () {
@@ -52,7 +101,7 @@ class _HomeViewState extends State<HomeView> {
               ),
               SizedBox(height: 60.h),
               Text(
-                'Latest on Emmy Design',
+                'Latest on Luan Design',
                 style: AppTypography.kBold18,
               ),
               SizedBox(height: AppSpacing.twentyVertical),
@@ -87,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
               ),
               SizedBox(height: AppSpacing.fiftyVertical),
               const CourseList(),
-              SizedBox(height: 60..h),
+              SizedBox(height: 60.h),
               const BestTeachers(),
               SizedBox(height: AppSpacing.thirtyVertical),
               Padding(
