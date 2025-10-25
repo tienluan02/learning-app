@@ -46,7 +46,7 @@ class UserModel {
       totalCoursesEnrolled: json['totalCoursesEnrolled'] ?? 0,
       totalCoursesCreated: json['totalCoursesCreated'] ?? 0,
       totalLessonsCompleted: json['totalLessonsCompleted'] ?? 0,
-      averageRating: (json['averageRating'] as num? ?? 0.0).toDouble(),
+      averageRating: _parseDouble(json['averageRating']),
       website: json['website'],
       linkedin: json['linkedin'],
       twitter: json['twitter'],
@@ -73,6 +73,16 @@ class UserModel {
       'twitter': twitter,
       'github': github,
     };
+  }
+
+  // Helper method to safely parse double values
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      return double.tryParse(value) ?? 0.0;
+    }
+    return 0.0;
   }
 
   // Helper methods

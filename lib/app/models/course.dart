@@ -70,11 +70,11 @@ class Course {
       id: json['id'].toString(),
       image: json['image'] ?? '',
       name: json['title'] ?? '',
-      price: (json['price'] as num? ?? 0).toDouble(),
+      price: _parseDouble(json['price']),
       description: json['description'] ?? '',
       lessons: [], // Will be populated separately
       shortDescription: json['shortDescription'],
-      originalPrice: (json['originalPrice'] as num?)?.toDouble(),
+      originalPrice: _parseDouble(json['originalPrice']),
       categoryId: json['categoryId']?.toString(),
       instructorId: json['instructorId']?.toString(),
       level: json['level'],
@@ -85,7 +85,7 @@ class Course {
       tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
       requirements: json['requirements'] != null ? List<String>.from(json['requirements']) : null,
       whatYouWillLearn: json['whatYouWillLearn'] != null ? List<String>.from(json['whatYouWillLearn']) : null,
-      averageRating: (json['averageRating'] as num?)?.toDouble(),
+      averageRating: _parseDouble(json['averageRating']),
       ratingCount: json['ratingCount'],
       totalEnrollments: json['totalEnrollments'],
       totalLessons: json['totalLessons'],
@@ -94,6 +94,16 @@ class Course {
       endDate: json['endDate'],
       isSelfPaced: json['isSelfPaced'],
     );
+  }
+
+  // Helper method to safely parse double values
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      return double.tryParse(value) ?? 0.0;
+    }
+    return 0.0;
   }
 
   // Convert to JSON
