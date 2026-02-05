@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/modules/auth/components/custom_social_button.dart';
 import 'package:mentor_mesh_hub/app/modules/auth/components/divider_with_text.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -27,31 +27,34 @@ class WelcomeView extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30.h),
-          FadeInUp(
-            duration: const Duration(milliseconds: 600),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSpacing.twentyHorizontal),
-              child: CustomSocialButton(
-                onTap: () {},
-                icon: AppAssets.kFaceBook,
-                text: 'Join using Facebook',
-              ),
-            ),
-          ),
-          SizedBox(height: AppSpacing.twentyVertical),
-          FadeInUp(
-            duration: const Duration(milliseconds: 700),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSpacing.twentyHorizontal),
-              child: CustomSocialButton(
-                onTap: () {},
-                icon: AppAssets.kGoogle,
-                text: 'Join using Google',
-              ),
-            ),
-          ),
+          // Google login disabled
+          // FadeInUp(
+          //   duration: const Duration(milliseconds: 700),
+          //   child: Padding(
+          //     padding:
+          //         EdgeInsets.symmetric(horizontal: AppSpacing.twentyHorizontal),
+          //     child: CustomSocialButton(
+          //       onTap: () {
+          //         final authController = Get.find<AuthController>();
+          //         authController.loginWithGoogle().then((success) {
+          //           if (success) {
+          //             Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
+          //           } else if (authController.errorMessage.isNotEmpty) {
+          //             Get.snackbar(
+          //               'Login Failed',
+          //               authController.errorMessage.value,
+          //               snackPosition: SnackPosition.TOP,
+          //               backgroundColor: Colors.red,
+          //               colorText: Colors.white,
+          //             );
+          //           }
+          //         });
+          //       },
+          //       icon: AppAssets.kGoogle,
+          //       text: 'Join using Google',
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: AppSpacing.thirtyVertical),
           FadeInUp(
             duration: const Duration(milliseconds: 801),

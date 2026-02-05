@@ -1,17 +1,24 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
 import 'package:mentor_mesh_hub/app/controllers/theme_controller.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/data/helpers/theme_helper.dart';
 import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
+import 'package:mentor_mesh_hub/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
   SystemChrome.setSystemUIOverlayStyle(defaultOverlay);
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
@@ -32,6 +39,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeController = Get.put(ThemeController());
     debugPrint(themeController.theme);
+    
     return ScreenUtilInit(
       designSize: const Size(375, 844),
       minTextAdapt: true,
@@ -54,7 +62,7 @@ class Main extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: getThemeMode(themeController.theme),
-            initialRoute: '/landing-page',
+            initialRoute: AppRoutes.onboarding,
             getPages: AppRoutes.routes,
           ),
         );

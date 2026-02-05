@@ -1,18 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'package:mentor_mesh_hub/app/controllers/api_controller.dart';
 import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
-import 'package:mentor_mesh_hub/app/models/course.dart';
 import 'package:mentor_mesh_hub/app/modules/home/components/course_card.dart';
 import 'package:mentor_mesh_hub/app/modules/home/components/custom_menu_card.dart';
 import 'package:mentor_mesh_hub/app/modules/message/message_view.dart';
 import 'package:mentor_mesh_hub/app/modules/profile/components/profile_image_card.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  final AuthController authController = Get.find<AuthController>();
+  final ApiController apiController = Get.isRegistered<ApiController>()
+      ? Get.find<ApiController>()
+      : Get.put(ApiController());
+  bool showAllFeaturedCourses = false;
+
+  @override
+  void initState() {
+    super.initState();
+    apiController.loadUserMetrics();
+    apiController.loadFeaturedCourses();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +49,7 @@ class ProfileView extends StatelessWidget {
             },
             icon: AppAssets.kMoreVert,
             iconColor: AppColors.kWhite,
-            color: AppColors.kWhite.withOpacity(0.15),
+            color: AppColors.kWhite.withValues(alpha: 0.15),
           ),
           SizedBox(width: AppSpacing.twentyHorizontal),
         ],
@@ -55,24 +74,29 @@ class ProfileView extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 65.h),
+                    Obx(() {
+                      final user = authController.currentUser.value;
+                      final subtitle =
+                          ((user?.bio ?? '').isNotEmpty) ? user!.bio : (user?.role ?? 'Learner');
+                      return Column(
+                        children: [
                     Text(
-                      'Tien Luan Nguyen',
+                            user?.name ?? 'Mentor',
                       style: AppTypography.kBold32,
                     ),
                     Text(
-                      'Mobile Developer',
+                            subtitle,
                       style: AppTypography.kLight14,
                     ),
+                        ],
+                      );
+                    }),
+                    SizedBox(height: 30.h),
+                    _buildMetricsSection(),
                     SizedBox(height: 30.h),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomMenuCard(
-                          isSelected: false,
-                          icon: AppAssets.kFollow,
-                          onTap: () {},
-                          title: 'Follow',
-                        ),
                         CustomMenuCard(
                           isSelected: false,
                           icon: AppAssets.kMessage,
@@ -81,12 +105,6 @@ class ProfileView extends StatelessWidget {
                           },
                           title: 'Message',
                         ),
-                        CustomMenuCard(
-                          isSelected: false,
-                          icon: AppAssets.kLinks,
-                          onTap: () {},
-                          title: 'Links',
-                        ),
                       ],
                     ),
                     SizedBox(height: AppSpacing.thirtyVertical),
@@ -94,8 +112,8 @@ class ProfileView extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 20.h),
                       decoration: BoxDecoration(
                         color: isDarkMode(context)
-                      ? AppColors.kPrimary.withOpacity(0.08)
-                      : AppColors.kPrimary.withOpacity(0.15),
+                            ? AppColors.kPrimary.withValues(alpha: 0.08)
+                            : AppColors.kPrimary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(AppSpacing.radiusThirty),
                         ),
@@ -108,24 +126,83 @@ class ProfileView extends StatelessWidget {
                             'About',
                             style: AppTypography.kBold18,
                           ),
-                          Text(
-                            'I’m a mobile developer. I love teaching and creating experiences that add value to people’s lives. I created this app and teaching on this platform so that I can learn more about mobile development.',
+                          Obx(() {
+                            final user = authController.currentUser.value;
+                            final about = (user?.bio ?? '').isNotEmpty
+                                ? user!.bio
+                                : 'Tell students a bit about yourself to personalize your profile.';
+                            return Text(
+                              about,
                             style: AppTypography.kLight14,
-                          ),
+                            );
+                          }),
                           SizedBox(height: AppSpacing.fortyVertical),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Featured Courses',
                                 style: AppTypography.kBold18,
                               ),
-                              CustomTextButton(
-                                  onPressed: () {}, text: 'See All'),
+                              const Spacer(),
+                              Obx(() {
+                                final featuredCourses = apiController.featuredCourses;
+                                if (featuredCourses.length > 1) {
+                                  return IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showAllFeaturedCourses = !showAllFeaturedCourses;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      showAllFeaturedCourses
+                                          ? Icons.keyboard_arrow_down
+                                          : Icons.keyboard_arrow_right,
+                                      color: AppColors.kPrimary,
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              }),
                             ],
                           ),
                           SizedBox(height: 10.h),
-                          SizedBox(
+                          Obx(() {
+                            final isLoading = apiController.isFeaturedLoading.value;
+                            final featuredCourses = apiController.featuredCourses;
+
+                            if (isLoading && featuredCourses.isEmpty) {
+                              return SizedBox(
+                                height: 280.h,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+
+                            if (featuredCourses.isEmpty) {
+                              return SizedBox(
+                                height: 160.h,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.star_outline,
+                                        size: 48.sp,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(height: 12.h),
+                                      Text(
+                                        'No featured courses yet',
+                                        style: AppTypography.kBold16,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return SizedBox(
                             height: 280.h,
                             child: ListView.separated(
                               clipBehavior: Clip.none,
@@ -133,14 +210,17 @@ class ProfileView extends StatelessWidget {
                                 width: 30.w,
                               ),
                               scrollDirection: Axis.horizontal,
-                              itemCount: coursesList.length,
+                                itemCount: showAllFeaturedCourses
+                                    ? featuredCourses.length
+                                    : (featuredCourses.isNotEmpty ? 1 : 0),
                               itemBuilder: (context, index) {
                                 return CourseCard(
-                                  course: coursesList[index],
+                                    course: featuredCourses[index],
                                 );
                               },
                             ),
-                          ),
+                            );
+                          }),
                           SizedBox(height: 90.h),
                         ],
                       ),
@@ -148,9 +228,158 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
               ),
-              const ProfileImageCard(),
+              Obx(() {
+                final image = authController.currentUser.value?.profileImage;
+                return ProfileImageCard(image: image);
+              }),
             ],
           ),
+        ),
+      ),
+    );
+  }
+  Widget _buildMetricsSection() {
+    return Obx(() {
+      final user = authController.currentUser.value;
+      final metrics = apiController.userMetrics.value;
+      final isTeacher = user?.isTeacher ?? false;
+
+      if (isTeacher) {
+        final teacherMetrics = metrics?.teacher;
+        return Column(
+          children: [
+            Row(
+              children: [
+                _ProfileMetricCard(
+                  label: 'Courses Created',
+                  value: _formatCount(teacherMetrics?.coursesCreated ?? user?.totalCoursesCreated),
+                ),
+                SizedBox(width: 12.w),
+                _ProfileMetricCard(
+                  label: 'Total Purchases',
+                  value: _formatCount(teacherMetrics?.totalPurchases),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                _ProfileMetricCard(
+                  label: 'Total Students',
+                  value: _formatCount(teacherMetrics?.totalStudents),
+                ),
+                SizedBox(width: 12.w),
+                _ProfileMetricCard(
+                  label: 'Avg Rating',
+                  value: _formatRating(teacherMetrics?.averageRating ?? user?.averageRating),
+                ),
+              ],
+            ),
+          ],
+        );
+      }
+
+      final studentMetrics = metrics?.student;
+      return Column(
+        children: [
+          Row(
+            children: [
+              _ProfileMetricCard(
+                label: 'Courses Bought',
+                value: _formatCount(
+                  studentMetrics?.coursesBought ?? user?.totalCoursesEnrolled,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              _ProfileMetricCard(
+                label: 'Study Time',
+                value: _formatStudyTime(studentMetrics?.studyMinutes ?? user?.totalHoursWatched ?? 0),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          Row(
+            children: [
+              _ProfileMetricCard(
+                label: 'Lessons Completed',
+                value: _formatCount(studentMetrics?.lessonsCompleted ?? user?.totalLessonsCompleted),
+              ),
+              SizedBox(width: 12.w),
+              _ProfileMetricCard(
+                label: 'Hours Watched',
+                value: _formatStudyTime(studentMetrics?.totalHoursWatched ?? user?.totalHoursWatched ?? 0),
+              ),
+            ],
+          ),
+        ],
+      );
+    });
+  }
+
+  String _formatCount(int? value) {
+    if (value == null) {
+      return '--';
+    }
+    return value.toString();
+  }
+
+  String _formatRating(double? value) {
+    if (value == null) {
+      return '--';
+    }
+    return value.toStringAsFixed(1);
+  }
+
+  String _formatStudyTime(int minutes) {
+    if (minutes <= 0) {
+      return '0m';
+    }
+    final hours = minutes ~/ 60;
+    final remaining = minutes % 60;
+    if (hours == 0) {
+      return '${remaining}m';
+    }
+    if (remaining == 0) {
+      return '${hours}h';
+    }
+    return '${hours}h ${remaining}m';
+  }
+}
+
+class _ProfileMetricCard extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _ProfileMetricCard({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 18.w,
+          vertical: 16.h,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.kPrimary.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(18.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              value,
+              style: AppTypography.kBold20,
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              label,
+              style: AppTypography.kLight14,
+            ),
+          ],
         ),
       ),
     );

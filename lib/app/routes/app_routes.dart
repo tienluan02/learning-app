@@ -18,12 +18,12 @@ class AppRoutes {
 
   static List<GetPage> routes = [
     GetPage<Route<dynamic>>(
-      name: landing,
-      page: () => const RoleBasedLandingPage(),
-    ),
-    GetPage<Route<dynamic>>(
       name: onboarding,
       page: () => const OnboardingView(),
+    ),
+    GetPage<Route<dynamic>>(
+      name: landing,
+      page: () => const RoleBasedLandingPage(),
     ),
     GetPage<Route<dynamic>>(
       name: welcome,

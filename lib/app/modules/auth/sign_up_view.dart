@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:mentor_mesh_hub/app/controllers/auth_controller.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/modules/auth/components/auth_field.dart';
-import 'package:mentor_mesh_hub/app/modules/auth/components/custom_social_button.dart';
-import 'package:mentor_mesh_hub/app/modules/auth/components/divider_with_text.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/animations/shake_animation.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
@@ -20,12 +19,20 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _shakeKey = GlobalKey<ShakeWidgetState>();
+  final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthController authController = Get.find<AuthController>();
   String selectedRole = 'student'; // Default role
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,133 +62,89 @@ class _SignUpViewState extends State<SignUpView> {
               AuthField(
                 controller: _nameController,
                 hintText: 'Enter Full Name',
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Name is required';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: AppSpacing.thirtyVertical),
               AuthField(
                 controller: _emailController,
                 hintText: 'Enter Email',
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Email is required';
+                  }
+                  if (!GetUtils.isEmail(value.trim())) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: AppSpacing.thirtyVertical),
               AuthField(
                 controller: _passwordController,
                 hintText: 'Enter Password',
+                isPassword: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Password is required';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: AppSpacing.twentyVertical),
               
-              // Role Selection
-              Text(
-                'Choose Your Role',
-                style: AppTypography.kBold16,
+              // Role Selection with Animated Cards
+              FadeInUp(
+                duration: const Duration(milliseconds: 1000),
+                child: Text(
+                  'Choose Your Role',
+                  style: AppTypography.kBold16,
+                ),
               ),
-              SizedBox(height: 15.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedRole = 'student';
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                        decoration: BoxDecoration(
-                          color: selectedRole == 'student' 
-                            ? AppColors.kPrimary.withValues(alpha: 0.1)
-                            : Colors.grey.withValues(alpha: 0.1),
-                          border: Border.all(
-                            color: selectedRole == 'student' 
-                              ? AppColors.kPrimary 
-                              : Colors.grey,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.school,
-                              color: selectedRole == 'student' 
-                                ? AppColors.kPrimary 
-                                : Colors.grey,
-                              size: 30.sp,
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              'Student',
-                              style: AppTypography.kBold14.copyWith(
-                                color: selectedRole == 'student' 
-                                  ? AppColors.kPrimary 
-                                  : Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              'Learn courses',
-                              style: AppTypography.kLight14.copyWith(
-                                color: selectedRole == 'student' 
-                                  ? AppColors.kPrimary 
-                                  : Colors.grey,
-                              ),
-                            ),
-                          ],
+              SizedBox(height: 30.h),
+              FadeInRight(
+                duration: const Duration(milliseconds: 1000),
+                child: SizedBox(
+                  height: 270.h,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        child: UserTypeCard(
+                          onTap: () {
+                            setState(() {
+                              selectedRole = 'teacher';
+                            });
+                          },
+                          isSelected: selectedRole == 'teacher',
+                          image: AppAssets.kTeacher,
+                          text: 'Teacher',
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(width: 15.w),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedRole = 'teacher';
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                        decoration: BoxDecoration(
-                          color: selectedRole == 'teacher' 
-                            ? AppColors.kPrimary.withValues(alpha: 0.1)
-                            : Colors.grey.withValues(alpha: 0.1),
-                          border: Border.all(
-                            color: selectedRole == 'teacher' 
-                              ? AppColors.kPrimary 
-                              : Colors.grey,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.person_outline,
-                              color: selectedRole == 'teacher' 
-                                ? AppColors.kPrimary 
-                                : Colors.grey,
-                              size: 30.sp,
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              'Teacher',
-                              style: AppTypography.kBold14.copyWith(
-                                color: selectedRole == 'teacher' 
-                                  ? AppColors.kPrimary 
-                                  : Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              'Create courses',
-                              style: AppTypography.kLight14.copyWith(
-                                color: selectedRole == 'teacher' 
-                                  ? AppColors.kPrimary 
-                                  : Colors.grey,
-                              ),
-                            ),
-                          ],
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: UserTypeCard(
+                          onTap: () {
+                            setState(() {
+                              selectedRole = 'student';
+                            });
+                          },
+                          isSelected: selectedRole == 'student',
+                          image: AppAssets.kStudent,
+                          text: 'Student',
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
               SizedBox(height: AppSpacing.twentyVertical),
               ShakeWidget(
@@ -189,29 +152,27 @@ class _SignUpViewState extends State<SignUpView> {
                 shakeOffset: 10.0,
                 shakeDuration: const Duration(milliseconds: 500),
                 child: Obx(() => PrimaryButton(
-                  onTap: () async {
-                    if (_nameController.text.isNotEmpty &&
-                        _emailController.text.isNotEmpty &&
-                        _passwordController.text.isNotEmpty) {
-                      final success = await authController.register(
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      authController.register(
                         name: _nameController.text.trim(),
                         email: _emailController.text.trim(),
                         password: _passwordController.text,
                         role: selectedRole,
-                      );
-                      
-                      if (success) {
-                        Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
-                      } else {
-                        _shakeKey.currentState?.shake();
-                        Get.snackbar(
-                          'Registration Failed',
-                          authController.errorMessage.value,
-                          snackPosition: SnackPosition.TOP,
-                          backgroundColor: Colors.red,
-                          colorText: Colors.white,
-                        );
-                      }
+                      ).then((success) {
+                        if (success) {
+                          Get.offAllNamed<dynamic>(AppRoutes.getLandingPageRoute());
+                        } else {
+                          _shakeKey.currentState?.shake();
+                          Get.snackbar(
+                            'Registration Failed',
+                            authController.errorMessage.value,
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                        }
+                      });
                     } else {
                       _shakeKey.currentState?.shake();
                     }
@@ -219,23 +180,62 @@ class _SignUpViewState extends State<SignUpView> {
                   text: authController.isLoading.value ? 'Creating Account...' : 'Create Account',
                 )),
               ),
-              SizedBox(height: AppSpacing.twentyVertical),
-              const DividerWithText(),
-              SizedBox(height: AppSpacing.twentyVertical),
-              CustomSocialButton(
-                onTap: () {},
-                icon: AppAssets.kFaceBook,
-                text: 'Join using Facebook',
-                margin: 0,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UserTypeCard extends StatelessWidget {
+  final VoidCallback onTap;
+  final String text;
+  final bool isSelected;
+  final String image;
+
+  const UserTypeCard({
+    required this.onTap,
+    required this.isSelected,
+    required this.text,
+    required this.image,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedButton(
+        onTap: onTap,
+        child: Container(
+          width: 160.w,
+          height: 270.h,
+          padding: EdgeInsets.all(12.w),
+          alignment: Alignment.topCenter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            color: isSelected ? AppColors.kPrimary : AppColors.kWhite,
+            boxShadow: [AppColors.defaultShadow],
+          ),
+          child: Column(
+            children: [
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? AppColors.kWhite : AppColors.kSecondary,
+                ),
               ),
-              SizedBox(height: AppSpacing.twentyVertical),
-              CustomSocialButton(
-                onTap: () {},
-                icon: AppAssets.kGoogle,
-                text: 'Join using Google',
-                margin: 0,
+              const Spacer(),
+              Image.asset(
+                image,
+                width: 120.w,
+                height: 120.h,
+                fit: BoxFit.contain,
               ),
-              SizedBox(height: 20.h),
+              const Spacer(),
             ],
           ),
         ),

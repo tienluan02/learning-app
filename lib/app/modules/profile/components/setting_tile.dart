@@ -1,7 +1,7 @@
-import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
-import 'package:mentor_mesh_hub/app/modules/widgets/animations/custom_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/animations/custom_switch.dart';
 
 class SettingTile extends StatefulWidget {
   final String title;
@@ -10,7 +10,7 @@ class SettingTile extends StatefulWidget {
   final bool isSwitch;
   final VoidCallback? onTap;
   final bool? switchValue;
-  final void Function(bool)? onChanged;
+  final ValueChanged<bool>? onChanged;
   const SettingTile({
     required this.title,
     required this.icon,
@@ -27,7 +27,6 @@ class SettingTile extends StatefulWidget {
 }
 
 class _SettingTileState extends State<SettingTile> {
-  bool isOn = false;
   @override
   Widget build(BuildContext context) {
     bool isDarkMode(BuildContext context) =>
@@ -52,7 +51,10 @@ class _SettingTileState extends State<SettingTile> {
             )
           : SvgPicture.asset(
               AppAssets.kArrowBackForward,
-              color: AppColors.kSecondary.withOpacity(0.4),
+              colorFilter: ColorFilter.mode(
+                AppColors.kSecondary.withValues(alpha: 0.4),
+                BlendMode.srcIn,
+              ),
             ),
       contentPadding: EdgeInsets.zero,
       minVerticalPadding: 0,

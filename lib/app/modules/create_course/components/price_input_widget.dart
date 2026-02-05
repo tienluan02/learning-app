@@ -1,15 +1,20 @@
-import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
-import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
+import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
 
 class PriceInputWidget extends StatelessWidget {
   final String initialValue;
   final void Function(String?)? onChanged;
+  final TextEditingController? priceController;
+  final void Function(double?)? onPriceChanged;
 
   const PriceInputWidget({
     required this.initialValue,
     required this.onChanged,
+    this.priceController,
+    this.onPriceChanged,
     Key? key,
   }) : super(key: key);
 
@@ -41,12 +46,20 @@ class PriceInputWidget extends StatelessWidget {
           Container(
             width: 1,
             height: 40.h,
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withValues(alpha: (0.5 * 255).round().toDouble()),
           ),
-          const Expanded(
+          Expanded(
             flex: 8,
             child: TextField(
-              decoration: InputDecoration(hintText: 'Enter Price'),
+              controller: priceController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(hintText: 'Enter Price'),
+              onChanged: (value) {
+                if (onPriceChanged != null) {
+                  final price = double.tryParse(value);
+                  onPriceChanged!(price);
+                }
+              },
             ),
           ),
         ],

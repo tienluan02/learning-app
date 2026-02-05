@@ -1,13 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/models/onboarding.dart';
 import 'package:mentor_mesh_hub/app/modules/onboarding/components/custom_indicator.dart';
 import 'package:mentor_mesh_hub/app/modules/onboarding/components/onboarding_card.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/widgets.dart';
 import 'package:mentor_mesh_hub/app/routes/app_routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({
@@ -21,23 +21,45 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode(BuildContext context) =>
         Theme.of(context).brightness == Brightness.dark;
+    
     SystemChrome.setSystemUIOverlayStyle(
       isDarkMode(context) ? defaultOverlay : customOverlay,
     );
+    
+    final currentOnboarding = onboardingList[_currentIndex];
+    final isLastPage = _currentIndex == (onboardingList.length - 1);
+    
     return Scaffold(
+      backgroundColor: AppColors.kWhite,
       extendBodyBehindAppBar: true,
       appBar: _currentIndex > 0
-          ? CustomBackAppBar(
-              leadingCallback: () {
-                _pageController.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-              },
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leadingWidth: 70.w,
+              leading: Padding(
+                padding: EdgeInsets.all(7.h),
+                child: CustomIconButton(
+                  onTap: () {
+                    _pageController.previousPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                    );
+                  },
+                  icon: AppAssets.kArrowBackIos,
+                ),
+              ),
             )
           : null,
       body: Column(
@@ -49,11 +71,11 @@ class _OnboardingViewState extends State<OnboardingView> {
               const WaveCard(),
               Positioned(
                 top: 100.h,
-                child: Image.asset(onboardingList[_currentIndex].image),
+                child: Image.asset(currentOnboarding.image),
               ),
             ],
           ),
-          SizedBox(height: 90.h),
+          SizedBox(height: 20.h),
           Expanded(
             child: PageView.builder(
               controller: _pageController,
@@ -79,7 +101,8 @@ class _OnboardingViewState extends State<OnboardingView> {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: PrimaryButton(
               onTap: () {
-                if (_currentIndex == (onboardingList.length - 1)) {
+                if (isLastPage) {
+                  // Navigate to welcome screen
                   Get.offAllNamed<dynamic>(AppRoutes.getWelcomeRoute());
                 } else {
                   _pageController.nextPage(
@@ -88,22 +111,20 @@ class _OnboardingViewState extends State<OnboardingView> {
                   );
                 }
               },
-              text: _currentIndex == (onboardingList.length - 1)
-                  ? 'Get Started'
-                  : 'Continue',
+              text: isLastPage ? 'Get Started' : 'Continue',
             ),
           ),
           CustomTextButton(
             onPressed: () {
-              if (_currentIndex == (onboardingList.length - 1)) {
+              if (isLastPage) {
+                // Navigate to sign in
                 Get.offAllNamed<dynamic>(AppRoutes.getSignInRoute());
               } else {
+                // Skip to welcome screen
                 Get.offAllNamed<dynamic>(AppRoutes.getWelcomeRoute());
               }
             },
-            text: _currentIndex == (onboardingList.length - 1)
-                ? 'Sign in instead'
-                : 'Skip',
+            text: isLastPage ? 'Sign in instead' : 'Skip',
           ),
           SizedBox(height: 20.h),
         ],

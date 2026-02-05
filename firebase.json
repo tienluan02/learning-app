@@ -1,17 +1,1 @@
-{
-  "hosting": {
-    "site": "mentormesh-hub-app",
-    "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
-}
+{"hosting":{"site":"mentormesh-hub-app","public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"**","destination":"/index.html"}]},"flutter":{"platforms":{"android":{"default":{"projectId":"mentormeshhub","appId":"1:229517442564:android:fda01d148cf1e1f9c87f51","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"mentormeshhub","appId":"1:229517442564:ios:3d4aa6f5f96d2d4ac87f51","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"mentormeshhub","configurations":{"android":"1:229517442564:android:fda01d148cf1e1f9c87f51","ios":"1:229517442564:ios:3d4aa6f5f96d2d4ac87f51"}}}}}}

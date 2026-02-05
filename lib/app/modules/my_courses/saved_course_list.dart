@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SavedCourseList extends StatelessWidget {
-  
   const SavedCourseList({super.key});
 
   @override
@@ -29,6 +28,9 @@ class SavedCourseList extends StatelessWidget {
               );
             },
           )
-        : const EmptyCard());
+        : const EmptyCard(
+            message: 'No saved courses yet',
+            subtitle: 'Save courses you want to learn later',
+          ));
   }
 }

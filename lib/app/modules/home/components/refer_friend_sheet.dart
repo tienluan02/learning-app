@@ -114,10 +114,6 @@ class ReferFriendSheet extends StatelessWidget {
                 children: [
                   SocialShareCard(
                     onTap: () {},
-                    icon: AppAssets.kFaceBook,
-                  ),
-                  SocialShareCard(
-                    onTap: () {},
                     icon: AppAssets.kGoogle,
                   ),
                   SocialShareCard(

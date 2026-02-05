@@ -6,10 +6,13 @@ class UserModel {
   String profileImage;
   String role; // 'student' or 'teacher'
   bool isVerified;
+  bool? isActive;
   int totalCoursesEnrolled;
   int totalCoursesCreated;
   int totalLessonsCompleted;
+  int totalHoursWatched;
   double averageRating;
+  String? jobTitle;
   String? website;
   String? linkedin;
   String? twitter;
@@ -23,10 +26,13 @@ class UserModel {
     required this.profileImage,
     required this.role,
     this.isVerified = false,
+    this.isActive,
     this.totalCoursesEnrolled = 0,
     this.totalCoursesCreated = 0,
     this.totalLessonsCompleted = 0,
+    this.totalHoursWatched = 0,
     this.averageRating = 0.0,
+    this.jobTitle,
     this.website,
     this.linkedin,
     this.twitter,
@@ -43,10 +49,13 @@ class UserModel {
       profileImage: json['profileImage'] ?? '',
       role: json['role'] ?? 'student',
       isVerified: json['isVerified'] ?? false,
+      isActive: json['isActive'] as bool?,
       totalCoursesEnrolled: json['totalCoursesEnrolled'] ?? 0,
       totalCoursesCreated: json['totalCoursesCreated'] ?? 0,
       totalLessonsCompleted: json['totalLessonsCompleted'] ?? 0,
+      totalHoursWatched: json['totalHoursWatched'] ?? 0,
       averageRating: _parseDouble(json['averageRating']),
+      jobTitle: json['jobTitle'],
       website: json['website'],
       linkedin: json['linkedin'],
       twitter: json['twitter'],
@@ -64,10 +73,13 @@ class UserModel {
       'profileImage': profileImage,
       'role': role,
       'isVerified': isVerified,
+      'isActive': isActive,
       'totalCoursesEnrolled': totalCoursesEnrolled,
       'totalCoursesCreated': totalCoursesCreated,
       'totalLessonsCompleted': totalLessonsCompleted,
+      'totalHoursWatched': totalHoursWatched,
       'averageRating': averageRating,
+      'jobTitle': jobTitle,
       'website': website,
       'linkedin': linkedin,
       'twitter': twitter,
@@ -76,7 +88,7 @@ class UserModel {
   }
 
   // Helper method to safely parse double values
-  static double _parseDouble(dynamic value) {
+  static double _parseDouble(Object? value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
     if (value is String) {
@@ -98,4 +110,5 @@ UserModel currentUser = UserModel(
   bio: 'Design Expert',
   profileImage: 'https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
   role: 'teacher',
+  jobTitle: 'Design Expert',
 );

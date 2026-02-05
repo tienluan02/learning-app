@@ -26,14 +26,6 @@ class MessageAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: const Text('Messages'),
-      actions: [
-        CustomIconButton(
-          onTap: () {},
-          icon: AppAssets.kAdd,
-          color: isDarkMode(context) ? Colors.black : iconColor,
-        ),
-        SizedBox(width: 10.w),
-      ],
     );
   }
 

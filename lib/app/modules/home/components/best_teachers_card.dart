@@ -1,12 +1,12 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/models/best_teachers_model.dart';
 import 'package:mentor_mesh_hub/app/modules/profile/components/profile_image_card.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BestTeachersCard extends StatelessWidget {
   final PageController pageController;
@@ -45,6 +45,23 @@ class BestTeachersCard extends StatelessWidget {
                   children: [
                     Text(teacher.name, style: AppTypography.kBold16),
                     Text(teacher.bio, style: AppTypography.kLight14),
+                    SizedBox(height: 8.h),
+                    // Rating row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          size: 18.sp,
+                          color: AppColors.kAccent1,
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          teacher.rating.toStringAsFixed(1),
+                          style: AppTypography.kBold14,
+                        ),
+                      ],
+                    ),
                     const Spacer(),
                     SvgPicture.asset(AppAssets.kCrown),
                     SizedBox(height: 5.h),

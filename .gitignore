@@ -46,3 +46,5 @@ app.*.map.json
 
 #Ignore cursor AI rules
 .cursor/rules/codacy.mdc
+
+backend/config/firebase-service-account.json

@@ -38,9 +38,9 @@ class Course {
     required this.image,
     required this.name,
     required this.price,
-    this.category,
     required this.lessons,
     required this.description,
+    this.category,
     this.owner,
     this.shortDescription,
     this.originalPrice,
@@ -66,13 +66,32 @@ class Course {
 
   // Factory constructor from JSON
   factory Course.fromJson(Map<String, dynamic> json) {
+    final categoryJson = json['category'] as Map<String, dynamic>?;
+    final ownerJson = json['owner'] as Map<String, dynamic>?;
+    final instructorJson = json['instructor'] as Map<String, dynamic>?;
+
+    List<String>? parseStringList(Object? value) {
+      if (value is List) {
+        return value.map((item) => item.toString()).toList();
+      }
+      return null;
+    }
+
     return Course(
       id: json['id'].toString(),
       image: json['image'] ?? '',
-      name: json['title'] ?? '',
+      name: json['title'] ?? json['name'] ?? '', // Support both 'title' and 'name'
       price: _parseDouble(json['price']),
       description: json['description'] ?? '',
       lessons: [], // Will be populated separately
+      category: categoryJson != null
+          ? Category.fromJson({
+              'id': categoryJson['id']?.toString() ?? '',
+              'name': categoryJson['name'] ?? '',
+              'image': categoryJson['image'] ?? '',
+              'color': categoryJson['color'],
+            })
+          : null,
       shortDescription: json['shortDescription'],
       originalPrice: _parseDouble(json['originalPrice']),
       categoryId: json['categoryId']?.toString(),
@@ -82,9 +101,9 @@ class Course {
       duration: json['duration'],
       isPublished: json['isPublished'],
       isFeatured: json['isFeatured'],
-      tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
-      requirements: json['requirements'] != null ? List<String>.from(json['requirements']) : null,
-      whatYouWillLearn: json['whatYouWillLearn'] != null ? List<String>.from(json['whatYouWillLearn']) : null,
+      tags: parseStringList(json['tags']),
+      requirements: parseStringList(json['requirements']),
+      whatYouWillLearn: parseStringList(json['whatYouWillLearn']),
       averageRating: _parseDouble(json['averageRating']),
       ratingCount: json['ratingCount'],
       totalEnrollments: json['totalEnrollments'],
@@ -93,11 +112,16 @@ class Course {
       startDate: json['startDate'],
       endDate: json['endDate'],
       isSelfPaced: json['isSelfPaced'],
+      owner: ownerJson != null
+          ? UserModel.fromJson(_normalizeUserJson(ownerJson))
+          : instructorJson != null
+              ? UserModel.fromJson(_normalizeUserJson(instructorJson))
+              : null,
     );
   }
 
   // Helper method to safely parse double values
-  static double _parseDouble(dynamic value) {
+  static double _parseDouble(Object? value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
     if (value is String) {
@@ -136,6 +160,27 @@ class Course {
       'isSelfPaced': isSelfPaced,
     };
   }
+}
+
+Map<String, dynamic> _normalizeUserJson(Map<String, dynamic> json) {
+  return {
+    'id': json['id']?.toString() ?? '',
+    'name': json['name'] ?? '',
+    'email': json['email'] ?? '',
+    'bio': json['bio'] ?? '',
+    'profileImage': json['profileImage'] ?? json['profile_image'] ?? '',
+    'role': json['role'] ?? 'teacher',
+    'isVerified': json['isVerified'] ?? true,
+    'totalCoursesEnrolled': json['totalCoursesEnrolled'] ?? 0,
+    'totalCoursesCreated': json['totalCoursesCreated'] ?? (json['coursesCreated'] ?? 0),
+    'totalLessonsCompleted': json['totalLessonsCompleted'] ?? 0,
+    'totalHoursWatched': json['totalHoursWatched'] ?? 0,
+    'averageRating': json['averageRating'] ?? json['rating'],
+    'website': json['website'],
+    'linkedin': json['linkedin'],
+    'twitter': json['twitter'],
+    'github': json['github'],
+  };
 }
 
 List<Course> coursesList = [

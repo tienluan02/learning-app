@@ -1,16 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
 import 'package:mentor_mesh_hub/app/models/course.dart';
 import 'package:mentor_mesh_hub/app/modules/course_detail/course_detail_view.dart';
 import 'package:mentor_mesh_hub/app/modules/home/components/saved_icon.dart';
 import 'package:mentor_mesh_hub/app/modules/widgets/containers/primary_container.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
   const CourseCard({required this.course, super.key});
+
+  ImageProvider _resolveImage(String path) {
+    if (path.startsWith('http')) {
+      return NetworkImage(path);
+    }
+    if (path.isNotEmpty) {
+      return AssetImage(path);
+    }
+    return AssetImage(AppAssets.kFlutterCourse1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +46,7 @@ class CourseCard extends StatelessWidget {
                       top: Radius.circular(AppSpacing.radiusFifteen),
                     ),
                     image: DecorationImage(
-                    image: course.image.startsWith('http') 
-                      ? NetworkImage(course.image) as ImageProvider
-                      : AssetImage(course.image),
+                      image: _resolveImage(course.image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -70,7 +77,7 @@ class CourseCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '\$ ${course.price}',
+                            '\$ ${course.price.toStringAsFixed(0)}',
                             style: AppTypography.kBold14,
                           ),
                           const Spacer(),

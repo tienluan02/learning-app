@@ -1,8 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:mentor_mesh_hub/app/data/constants/constants.dart';
-import 'package:mentor_mesh_hub/app/models/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_mesh_hub/app/models/onboarding.dart';
 
 class OnboardingCard extends StatelessWidget {
   final Onboarding onboarding;
@@ -19,7 +18,11 @@ class OnboardingCard extends StatelessWidget {
           duration: const Duration(milliseconds: 500),
           child: Text(
             onboarding.title,
-            style: AppTypography.kBold32,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -28,7 +31,11 @@ class OnboardingCard extends StatelessWidget {
           duration: const Duration(milliseconds: 500),
           child: Text(
             onboarding.description,
-            style: AppTypography.kLight16,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
